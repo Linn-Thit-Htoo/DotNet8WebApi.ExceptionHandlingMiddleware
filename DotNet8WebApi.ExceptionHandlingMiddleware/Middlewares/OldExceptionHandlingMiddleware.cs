@@ -1,6 +1,4 @@
-﻿using DotNet8WebApi.ExceptionHandlingMiddleware.Models;
-
-namespace DotNet8WebApi.ExceptionHandlingMiddleware.Middlewares;
+﻿namespace DotNet8WebApi.ExceptionHandlingMiddleware.Middlewares;
 
 public class OldExceptionHandlingMiddleware
 {
