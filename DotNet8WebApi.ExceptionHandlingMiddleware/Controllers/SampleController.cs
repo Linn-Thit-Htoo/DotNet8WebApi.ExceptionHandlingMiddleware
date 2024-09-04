@@ -8,7 +8,7 @@ namespace DotNet8WebApi.ExceptionHandlingMiddleware.Controllers
     public class SampleController : ControllerBase
     {
         [HttpGet]
-        public IActionResult SampleEndpoint()
+        public IActionResult SampleEndpoint(int id)
         {
             return Ok("Hello!");
         }

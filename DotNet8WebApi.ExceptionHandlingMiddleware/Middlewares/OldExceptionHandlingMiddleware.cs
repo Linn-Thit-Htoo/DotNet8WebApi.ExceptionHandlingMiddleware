@@ -1,4 +1,6 @@
-﻿namespace DotNet8WebApi.ExceptionHandlingMiddleware.Middlewares
+﻿using DotNet8WebApi.ExceptionHandlingMiddleware.Models;
+
+namespace DotNet8WebApi.ExceptionHandlingMiddleware.Middlewares
 {
     public class OldExceptionHandlingMiddleware
     {
@@ -13,6 +15,7 @@
 
         public async Task InvokeAsync(HttpContext context)
         {
+            Result<string> result;
             try
             {
                 await _next(context);
@@ -20,14 +23,10 @@
             catch (Exception ex)
             {
                 _logger.LogError(ex.ToString());
-                var problemDetails = new
-                {
-                    Status = 500,
-                    Title = "Internal Server Error"
-                };
+                result = Result<string>.Fail(ex);
 
-                context.Response.StatusCode = problemDetails.Status;
-                await context.Response.WriteAsJsonAsync(problemDetails);
+                context.Response.StatusCode = Convert.ToInt32(result.StatusCode);
+                await context.Response.WriteAsJsonAsync(result);
             }
         }
     }
