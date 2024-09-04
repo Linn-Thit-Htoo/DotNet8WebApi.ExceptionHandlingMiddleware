@@ -1,6 +1,4 @@
-﻿using DotNet8WebApi.ExceptionHandlingMiddleware.Enums;
-
-namespace DotNet8WebApi.ExceptionHandlingMiddleware.Models;
+﻿namespace DotNet8WebApi.ExceptionHandlingMiddleware.Models;
 
 public class Result<T>
 {
