@@ -1,7 +1,4 @@
-﻿using DotNet8WebApi.ExceptionHandlingMiddleware.Models;
-using Microsoft.AspNetCore.Diagnostics;
-
-namespace DotNet8WebApi.ExceptionHandlingMiddleware.Exceptions;
+﻿namespace DotNet8WebApi.ExceptionHandlingMiddleware.Exceptions;
 
 public class BadRequestExceptionHandler : IExceptionHandler
 {
