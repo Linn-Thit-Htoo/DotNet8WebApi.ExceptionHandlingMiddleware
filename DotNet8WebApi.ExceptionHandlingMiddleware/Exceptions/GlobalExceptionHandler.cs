@@ -1,29 +1,26 @@
-﻿using DotNet8WebApi.ExceptionHandlingMiddleware.Enums;
-using DotNet8WebApi.ExceptionHandlingMiddleware.Models;
+﻿using DotNet8WebApi.ExceptionHandlingMiddleware.Models;
 using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
 
-namespace DotNet8WebApi.ExceptionHandlingMiddleware.Exceptions
+namespace DotNet8WebApi.ExceptionHandlingMiddleware.Exceptions;
+
+public class GlobalExceptionHandler : IExceptionHandler
 {
-    public class GlobalExceptionHandler : IExceptionHandler
+    private readonly ILogger<GlobalExceptionHandler> _logger;
+
+    public GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger)
     {
-        private readonly ILogger<GlobalExceptionHandler> _logger;
+        _logger = logger;
+    }
 
-        public GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger)
-        {
-            _logger = logger;
-        }
+    public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
+    {
+        _logger.LogError(exception.ToString());
+        var result = Result<string>.Fail(exception.ToString());
 
-        public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
-        {
-            _logger.LogError(exception.ToString());
-            var result = Result<string>.Fail(exception.ToString());
+        httpContext.Response.StatusCode = Convert.ToInt32(result.StatusCode);
+        await httpContext.Response
+            .WriteAsJsonAsync(result, cancellationToken);
 
-            httpContext.Response.StatusCode = Convert.ToInt32(result.StatusCode);
-            await httpContext.Response
-                .WriteAsJsonAsync(result, cancellationToken);
-
-            return true;
-        }
+        return true;
     }
 }
