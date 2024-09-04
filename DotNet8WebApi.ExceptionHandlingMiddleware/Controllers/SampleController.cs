@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace DotNet8WebApi.ExceptionHandlingMiddleware.Controllers;
+﻿namespace DotNet8WebApi.ExceptionHandlingMiddleware.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
