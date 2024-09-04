@@ -1,5 +1,6 @@
 
 
+using DotNet8WebApi.ExceptionHandlingMiddleware.Exceptions;
 using DotNet8WebApi.ExceptionHandlingMiddleware.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
 
 var app = builder.Build();
 
@@ -22,7 +26,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseMiddleware<OldExceptionHandlingMiddleware>();
+//app.UseMiddleware<OldExceptionHandlingMiddleware>();
+
+app.UseExceptionHandler();
 
 app.UseAuthorization();
 
