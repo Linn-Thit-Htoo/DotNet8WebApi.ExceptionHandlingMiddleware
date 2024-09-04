@@ -1,33 +1,35 @@
 ﻿using DotNet8WebApi.ExceptionHandlingMiddleware.Models;
 
-namespace DotNet8WebApi.ExceptionHandlingMiddleware.Middlewares
+namespace DotNet8WebApi.ExceptionHandlingMiddleware.Middlewares;
+
+public class OldExceptionHandlingMiddleware
 {
-    public class OldExceptionHandlingMiddleware
+    private readonly RequestDelegate _next;
+    private readonly ILogger<OldExceptionHandlingMiddleware> _logger;
+
+    public OldExceptionHandlingMiddleware(
+        RequestDelegate next,
+        ILogger<OldExceptionHandlingMiddleware> logger
+    )
     {
-        private readonly RequestDelegate _next;
-        private readonly ILogger<OldExceptionHandlingMiddleware> _logger;
+        _next = next;
+        _logger = logger;
+    }
 
-        public OldExceptionHandlingMiddleware(RequestDelegate next, ILogger<OldExceptionHandlingMiddleware> logger)
+    public async Task InvokeAsync(HttpContext context)
+    {
+        Result<string> result;
+        try
         {
-            _next = next;
-            _logger = logger;
+            await _next(context);
         }
-
-        public async Task InvokeAsync(HttpContext context)
+        catch (Exception ex)
         {
-            Result<string> result;
-            try
-            {
-                await _next(context);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.ToString());
-                result = Result<string>.Fail(ex);
+            _logger.LogError(ex.ToString());
+            result = Result<string>.Fail(ex);
 
-                context.Response.StatusCode = Convert.ToInt32(result.StatusCode);
-                await context.Response.WriteAsJsonAsync(result);
-            }
+            context.Response.StatusCode = Convert.ToInt32(result.StatusCode);
+            await context.Response.WriteAsJsonAsync(result);
         }
     }
 }
