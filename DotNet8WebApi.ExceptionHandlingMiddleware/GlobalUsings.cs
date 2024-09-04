@@ -2,3 +2,4 @@
 global using DotNet8WebApi.ExceptionHandlingMiddleware.Models;
 global using Microsoft.AspNetCore.Diagnostics;
 global using DotNet8WebApi.ExceptionHandlingMiddleware.Enums;
+global using DotNet8WebApi.ExceptionHandlingMiddleware.Exceptions;

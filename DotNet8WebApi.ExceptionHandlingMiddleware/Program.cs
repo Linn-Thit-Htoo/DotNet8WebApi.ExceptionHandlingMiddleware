@@ -1,5 +1,3 @@
-using DotNet8WebApi.ExceptionHandlingMiddleware.Exceptions;
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
