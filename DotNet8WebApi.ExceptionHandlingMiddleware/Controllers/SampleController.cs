@@ -14,7 +14,7 @@ public class SampleController : ControllerBase
         }
         catch (Exception ex)
         {
-            throw;
+            throw; // rethrow;
         }
     }
 }

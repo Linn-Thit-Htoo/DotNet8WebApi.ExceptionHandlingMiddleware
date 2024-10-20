@@ -16,9 +16,9 @@ public class GlobalExceptionHandler : IExceptionHandler
     )
     {
         _logger.LogError(exception.ToString());
-        var result = Result<string>.Fail(exception.ToString());
+        var result = Result<string>.Fail(exception);
 
-        httpContext.Response.StatusCode = Convert.ToInt32(result.StatusCode);
+        httpContext.Response.StatusCode = 200;
         await httpContext.Response.WriteAsJsonAsync(result, cancellationToken);
 
         return true;
